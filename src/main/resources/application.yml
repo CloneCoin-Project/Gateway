@@ -33,3 +33,8 @@ spring:
           uri: lb://WALLET-WRITE-SERVER
           predicates:
             - Path=/walletwrite/**
+
+        - id: analysis-server
+            uri: lb://ANALYSIS-SERVER
+            predicates:
+              - Path=/analysis/**
