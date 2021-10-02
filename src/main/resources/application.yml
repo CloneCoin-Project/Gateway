@@ -1,60 +1,57 @@
 server:
-  port: 8080
+  port: 8000
 
 eureka:
   instance:
-    hostname: localhost
-
+    preferIpAddress: true
   client:
     register-with-eureka: true # false 로 해도됨.
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/ # 도커때는 http://discovery-service:8761/eureka/
 
 spring:
   application:
-    name: gateway-server
+    name: gateway
   cloud:
+    client:
+      hostname: gateway
     gateway:
       routes:
-#        - id: user-server
-#          uri: lb://USER-SERVER # loadBalancing
-#          predicates:
-#            - Path=/user/**
-        - id: user-server
-          uri: lb://USER-SERVER
+        - id: user
+          uri: lb://USER
           predicates:
             - Path=/user/welcome
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user/(?<segment>.*), /$\{segment} # test 용
-        - id: user-server
-          uri: lb://USER-SERVER
+        - id: user
+          uri: lb://USER
           predicates:
             - Path=/user/login
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user/(?<segment>.*), /$\{segment}
-        - id: user-server
-          uri: lb://USER-SERVER
+        - id: user
+          uri: lb://USER
           predicates:
             - Path=/user/users
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user/(?<segment>.*), /$\{segment}
-        - id: user-server
-          uri: lb://USER-SERVER
+        - id: user
+          uri: lb://USER
           predicates:
             - Path=/user-service/actuator/**
             - Method=GET,POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-        - id: user-server
-          uri: lb://USER-SERVER
+        - id: user
+          uri: lb://USER
           predicates:
             - Path=/user/**
             - Method=GET
@@ -63,15 +60,20 @@ spring:
             - RewritePath=/user/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter # 로그인,회원 가입 제외하고는 authorizationHeaderFilter 적용!(token 써야한다)
 
-        - id: portfolio-server
-          uri: lb://PORTFOLIO-SERVER
+        - id: portfolio
+          uri: lb://PORTFOLIO
           predicates:
             - Path=/portfolio/**
 
-        - id: wallet-write-server
-          uri: lb://WALLET-WRITE-SERVER
+        - id: wallet-write
+          uri: lb://WALLET-WRITE
           predicates:
             - Path=/walletwrite/**
+
+        - id: analysis
+          uri: lb://ANALYSIS
+          predicates:
+            - Path=/analysis/**
 
 token:
   secret: user_token
