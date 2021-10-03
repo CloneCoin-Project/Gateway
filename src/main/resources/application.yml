@@ -18,62 +18,76 @@ spring:
       hostname: gateway
     gateway:
       routes:
-        - id: user
-          uri: lb://USER
-          predicates:
-            - Path=/user/welcome
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user/(?<segment>.*), /$\{segment} # test 용
-        - id: user
-          uri: lb://USER
-          predicates:
-            - Path=/user/login
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user/(?<segment>.*), /$\{segment}
-        - id: user
-          uri: lb://USER
-          predicates:
-            - Path=/user/users
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user/(?<segment>.*), /$\{segment}
-        - id: user
-          uri: lb://USER
-          predicates:
-            - Path=/user-service/actuator/**
-            - Method=GET,POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user/welcome
+#            - Method=GET
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/user/(?<segment>.*), /$\{segment} # test 용
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user/login
+#            - Method=POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/user/(?<segment>.*), /$\{segment}
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user/users
+#            - Method=POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/user/(?<segment>.*), /$\{segment}
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user-service/actuator/**
+#            - Method=GET,POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user/**
+#            - Method=GET
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/user/(?<segment>.*), /$\{segment}
+#            - AuthorizationHeaderFilter # 로그인,회원 가입 제외하고는 authorizationHeaderFilter 적용!(token 써야한다)
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user/login, /user/users
+
         - id: user
           uri: lb://USER
           predicates:
             - Path=/user/**
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter # 로그인,회원 가입 제외하고는 authorizationHeaderFilter 적용!(token 써야한다)
 
         - id: portfolio
           uri: lb://PORTFOLIO
           predicates:
             - Path=/portfolio/**
 
-        - id: wallet-write
-          uri: lb://WALLET-WRITE
-          predicates:
-            - Path=/walletwrite/**
-
         - id: analysis
           uri: lb://ANALYSIS
           predicates:
             - Path=/analysis/**
+
+        - id: wallet-write
+          uri: lb://WALLETWRITE
+          predicates:
+            - Path=/walletwrite/**
+
+        - id: walletread
+          uri: lb://WALLETREAD
+          predicates:
+            - Path=/walletread/**
 
 token:
   secret: user_token
