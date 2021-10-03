@@ -65,15 +65,20 @@ spring:
           predicates:
             - Path=/portfolio/**
 
-        - id: wallet-write
-          uri: lb://WALLET-WRITE
-          predicates:
-            - Path=/walletwrite/**
-
         - id: analysis
           uri: lb://ANALYSIS
           predicates:
             - Path=/analysis/**
+
+        - id: wallet-write
+          uri: lb://WALLETWRITE
+          predicates:
+            - Path=/walletwrite/**
+
+        - id: walletread
+          uri: lb://WALLETREAD
+          predicates:
+            - Path=/walletread/**
 
 token:
   secret: user_token
