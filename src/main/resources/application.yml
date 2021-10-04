@@ -69,7 +69,7 @@ spring:
           predicates:
             - Path=/walletread/**
 
-        - id: pushserver
+        - id: push-server
           uri: lb://PUSHSERVER
           predicates:
             - Path=/push/**
