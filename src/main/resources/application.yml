@@ -5,6 +5,7 @@ eureka:
   instance:
     preferIpAddress: true
     ip-address: 3.35.197.230
+
   client:
     register-with-eureka: true # false 로 해도됨.
     fetch-registry: true
@@ -18,6 +19,24 @@ spring:
     client:
       hostname: gateway
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+#            allow-credentials: true
+            allowedHeaders:
+              - x-requested-with
+              - authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - OPTIONS
+              - DELETE
       routes:
 #         - id: user
 #          uri: lb://USER
