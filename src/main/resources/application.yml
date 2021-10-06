@@ -4,11 +4,12 @@ server:
 eureka:
   instance:
     preferIpAddress: true
+    ip-address: 3.35.197.230
   client:
     register-with-eureka: true # false 로 해도됨.
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # 도커때는 http://discovery-service:8761/eureka/
+      defaultZone: http://13.125.221.207:8761/eureka/ # 도커때는 http://discovery-service:8761/eureka/
 
 spring:
   application:
@@ -27,7 +28,7 @@ spring:
 #            - RemoveRequestHeader=Cookie
 #            - RewritePath=/user/(?<segment>.*), /$\{segment}
 #            - AuthorizationHeaderFilter # 로그인,회원 가입 제외하고는 authorizationHeaderFilter 적용!(token 써야한다)
-        # 1. 회원가입, 로그인 토큰 필요 없음
+#        # 1. 회원가입, 로그인 토큰 필요 없음
         - id: user
           uri: lb://USER
           predicates:
@@ -40,14 +41,14 @@ spring:
           uri: lb://USER
           predicates:
             - Path=/user/**
-            - Method=GET
-        # 3. 그 외에는 토큰 필요 (/user/follow, /user/unfollow, /user/leader)
-        - id: user
-          uri: lb://USER
-          predicates:
-            - Path=/user/**,
-          filters:
-            - AuthorizationHeaderFilter
+#            - Method=GET
+#        # 3. 그 외에는 토큰 필요 (/user/follow, /user/unfollow, /user/leader)
+#        - id: user
+#          uri: lb://USER
+#          predicates:
+#            - Path=/user/**,
+#          filters:
+#            - AuthorizationHeaderFilter
 
         - id: portfolio
           uri: lb://PORTFOLIO
